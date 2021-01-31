@@ -1,0 +1,39 @@
+def PalindromeReconstruction(s: str):
+    s = sorted(s)                                          # sort lexicographically
+    freq_s = {}
+
+    for i in s:
+        freq_s[i] = freq_s.get(i, 0) + 1
+
+    char_list = list(freq_s.values())
+
+    count = 0
+    for i in char_list:
+        if i % 2 != 0:
+            count += 1
+    if count > 1:
+        return "impossible"
+
+    odd_string = ''                                        # if there is a character which frequency is odd
+    for key, value in freq_s.items():                      # I make it even by subtracting one.
+        if value % 2 != 0:                                 # At the end of the function I add the subtracted character
+            freq_s[key] = value - 1                        # to my new string
+            odd_string = odd_string + key
+
+    pal_list = []
+    for key, value in freq_s.items():
+        for i in range(value):
+            pal_list.insert(len(pal_list)//2, key)
+
+    if len(odd_string) == 1:
+        pal_list.insert(len(pal_list) // 2, odd_string)
+
+    result = ''
+
+    return result.join(pal_list)
+
+
+
+s = input()
+
+print(PalindromeReconstruction(s))
