@@ -1,0 +1,83 @@
+class Vector3D:
+    def __init__(self, x, y, z):
+        self._x = x
+        self._y = y
+        self._z = z
+
+    def __str__(self):
+        return '(' + str(self._x) + ',' + str(self._y) + ',' + str(self._z) + ')'
+
+    def __add__(self, other):
+        return Vector3D(self._x + other._x, self._y + other._y, self._z + other._z)
+
+    def __iadd__(self, other):
+        self._x = self._x + other._x
+        self._y = self._y + other._y
+        self._z = self._z + other._z
+        return self
+
+    def __neg__(self):
+        return Vector3D(self._x * (-1), self._y * (-1), self._z * (-1))
+
+    def __sub__(self, other):
+        other = -other
+        return self + other
+
+    def __isub__(self, other):
+        other = -other
+        self += other
+        return self
+
+    def __eq__(self, other):
+        if not isinstance(other, Vector3D):
+            raise NotImplementedError
+        return (self._x, self._y, self._z) == (other._x, other._y, other._z)
+
+    def __ne__(self, other):
+        if not isinstance(other, Vector3D):
+            raise NotImplementedError
+        return not (self == other)
+
+    def __mul__ (self, item):
+        if not isinstance(item, int or float):
+            raise IndexError('can\'t multiply \'vector\' by non-\'float\' or non-\'int\' type')
+        return Vector3D(self._x * item, self._y * item, self._z * item)
+
+    def __rmul__(self, item):
+        if not isinstance(item, int or float):
+            raise IndexError('can\'t multiply \'vector\' by non-\'float\' or non-\'int\' type')
+        return self * item
+
+    def __xor__(self, other):
+        if not isinstance(other, Vector3D):
+            raise NotImplementedError
+        return self._x * other._x, self._y * other._y, self._z * other._z
+
+    def __truediv__(self, number):
+        if not isinstance(number, int or float):
+            raise IndexError('can\'t divide \'vector\' by non-\'float\' or non-\'int\' type')
+        return Vector3D(self._x / number, self._y / number, self._z / number)
+
+    def norm(self):
+        return (self._x**2 + self._y**2 + self._z**2)**0.5
+
+
+
+v1 = Vector3D(1, 4, 3)
+v2 = Vector3D(2, 4, 6)
+v3 = Vector3D(0, 0, 0)
+
+print('v1 + v2 =', v1 + v2)
+print('v1 - v2 =', v1 - v2)
+v1 += v3
+print('v1 += v3, v1 =', v1)
+v2 -= v1
+print('v2 -= v1, v2 =', v2)
+print('-v1 =', -v1)
+print('v1 != v2 ?', v1 != v2)
+print('v3 == -v3 ?', v3 == -v3)
+print('v1 * 3 =', v1 * 3)
+print('3 * v1 =', 3 * v1)
+print('v1 ^ v1 =', v1 ^ v1)
+print('v2 / 2 =', v2 / 2)
+print('|v1| =', v1.norm())
